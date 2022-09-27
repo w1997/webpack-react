@@ -2,11 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Home from "./components/home/index";
 // import "./public-path";
-const App: React.FC<any> = () => {
+import action from './action';
+import "./index.less"
+const App: React.FC<any> = (props: any) => {
   return (
-    <div>
-      主应用
-      <Home></Home>
+    <div className="mainPage">
+      ts应用
+      <Home data={props.data}></Home>
     </div>
   )
 }
@@ -17,7 +19,7 @@ function render(props: any) {
   console.log("方法进入，开始渲染");
   const list = container ? container.querySelector('#root') : document.querySelector('#root');
   root = ReactDOM.createRoot(list);
-  root.render(<App />);
+  root.render(<App data={props.data} />);
   // ReactDOM.render(<App />, list);
   // const root = ReactDOM.createRoot(document.getElementById('root'));
   // root.render(<App />);
@@ -33,13 +35,13 @@ export async function bootstrap() {
 //挂载
 export async function mount(props: any) {
   console.log('[reactts] props from main framework', props);
+  action.setActions(props);
   render(props);
 }
 //卸载
 export async function unmount(props: any) {
   const { container } = props;
   console.log("卸载。。。")
-  // ReactDOM.unmountComponentAtNode(container ? container.querySelector('#root') : document.querySelector('#root'));
   root.unmount()
 }
 //@ts-ignore
